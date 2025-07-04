@@ -43,7 +43,7 @@ export default function SearchBar() {
       <input
         type="search"
         placeholder="Search articles..."
-        className="w-full pl-12 pr-4 py-2 border-2 border-neutral-300 bg-white rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-600 transition-all text-base"
+        className="w-full pl-12 pr-4 py-2 border-2 border-neutral-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-600 transition-all text-base"
         value={input}
         onChange={handleChange}
       />

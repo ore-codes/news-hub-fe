@@ -17,3 +17,11 @@ export type Article = {
   url: string;
   url_to_image: string;
 };
+
+export enum LocalStorageKeys {
+  Token = 'token',
+};
+
+export enum QueryKeys {
+  Me = 'me',
+};

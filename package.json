@@ -9,13 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@iconify/react": "^6.0.0",
     "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
     "lodash.debounce": "^4.0.8",
     "next": "15.3.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.59.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

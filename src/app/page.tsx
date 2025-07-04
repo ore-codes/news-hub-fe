@@ -6,8 +6,9 @@ import SourceFilter from '@/components/SourceFilter';
 import SearchBar from '@/components/SearchBar';
 import DateFilter from '@/components/DateFilter';
 
-export default async function Home({ searchParams }: any) {
-  const { page = 1, category, source, q, date } = searchParams || {};
+export default async function Home(props: any) {
+  const searchParams = await props.searchParams || {};
+  const { page = 1, category, source, q, date } = searchParams;
   const currentPage = Number(page) || 1;
   const articlesRes = await fetchArticles({
     per_page: 21,

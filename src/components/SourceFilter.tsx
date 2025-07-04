@@ -33,7 +33,7 @@ export default function SourceFilter() {
       <div className="flex overflow-x-auto space-x-2 pb-2 scrollbar-hide">
         <Link
           href={createSourceUrl('all')}
-          className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${!currentSource
+          className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${!currentSource
             ? 'bg-neutral-600 text-white shadow-md'
             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
@@ -48,7 +48,7 @@ export default function SourceFilter() {
             <Link
               key={source}
               href={createSourceUrl(source)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${isActive
+              className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${isActive
                 ? 'bg-neutral-600 text-white shadow-md'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
