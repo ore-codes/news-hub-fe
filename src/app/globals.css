@@ -6,7 +6,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: Geist, Arial, sans-serif;
 }
 
 body {

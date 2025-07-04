@@ -8,7 +8,6 @@ import { useSearchParams } from "next/navigation";
 export default function CategoryFilter() {
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get('category');
-  const currentSource = searchParams.get('source');
 
   const query = useQuery({
     queryKey: ['categories'],

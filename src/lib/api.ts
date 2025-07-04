@@ -2,18 +2,17 @@ import axios from 'axios';
 import { Article, LocalStorageKeys, Paginated } from './types';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://172.18.0.7:8000/api',
   headers: {
     'Accept': 'application/json',
   }
 });
 
-// Attach token to every request if present
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem(LocalStorageKeys.Token);
     if (token) {
-      config.headers = config.headers || {};
+      //config.headers = config.headers || {};
       config.headers['Authorization'] = `Bearer ${token}`;
     }
   }
@@ -27,8 +26,11 @@ export async function fetchArticles(params: {
   date?: string;
   per_page?: number;
   page?: number;
-}) {
-  const res = await api.get<Paginated<Article>>('/articles', { params });
+}, token?: string) {
+  const config = token
+    ? { params, headers: { Authorization: `Bearer ${token}` } }
+    : { params };
+  const res = await api.get<Paginated<Article>>('/articles', config);
   return res.data;
 }
 
@@ -40,6 +42,11 @@ export async function fetchCategories() {
 export async function fetchSources() {
   const res = await api.get<{ sources: string[] }>('/sources');
   return res.data?.sources;
+}
+
+export async function fetchAuthors() {
+  const res = await api.get<{ authors: string[] }>('/authors');
+  return res.data?.authors;
 }
 
 export async function login({ email, password }: { email: string; password: string }) {
@@ -85,4 +92,18 @@ export async function register(dto: { name: string; email: string; password: str
     }
     throw err;
   }
+}
+
+export async function fetchPreferences() {
+  const res = await api.get('/preferences');
+  return res.data;
+}
+
+export async function updatePreferences(preferences: {
+  sources?: string[];
+  categories?: string[];
+  authors?: string[];
+}) {
+  const res = await api.post('/preferences', preferences);
+  return res.data;
 }

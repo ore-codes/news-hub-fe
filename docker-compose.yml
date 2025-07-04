@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  nextjs_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs_app
+    restart: always
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    networks:
+      - nextjs_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nextjs_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - nextjs_app
+    networks:
+      - nextjs_network
+
+networks:
+  nextjs_network:
+    driver: bridge

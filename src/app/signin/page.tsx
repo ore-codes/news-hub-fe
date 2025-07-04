@@ -8,7 +8,8 @@ import * as yup from "yup";
 import { useState } from "react";
 import { login } from "@/lib/api";
 import { useQueryClient } from "@tanstack/react-query";
-import { QueryKeys } from "@/lib/types";
+import { LocalStorageKeys, QueryKeys } from "@/lib/types";
+import { setCookie } from "nookies";
 
 const schema = yup.object({
   email: yup.string().email("Enter a valid email").required("Email is required"),
@@ -31,7 +32,10 @@ export default function SignInPage() {
     setBackendError("");
     setLoading(true);
     try {
-      await login(data);
+      const result = await login(data);
+      if (result.token) {
+        setCookie(null, LocalStorageKeys.Token, result.token, { path: "/" });
+      }
       await queryClient.refetchQueries({ queryKey: [QueryKeys.Me] });
       router.push("/");
     } catch (err: any) {

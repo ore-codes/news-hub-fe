@@ -5,11 +5,30 @@ import CategoryFilter from '@/components/CategoryFilter';
 import SourceFilter from '@/components/SourceFilter';
 import SearchBar from '@/components/SearchBar';
 import DateFilter from '@/components/DateFilter';
+import { cookies } from 'next/headers';
+import { LocalStorageKeys } from '@/lib/types';
 
-export default async function Home(props: any) {
+type HomeProps = {
+  searchParams: Promise<{
+    page?: string;
+    category?: string;
+    source?: string;
+    q?: string;
+    date?: string;
+  }>
+}
+
+export default async function Home(props: HomeProps) {
   const searchParams = await props.searchParams || {};
   const { page = 1, category, source, q, date } = searchParams;
   const currentPage = Number(page) || 1;
+
+  let token: string | undefined = undefined;
+  if (typeof window === 'undefined') {
+    const cookieStore = await cookies();
+    token = cookieStore.get(LocalStorageKeys.Token)?.value;
+  }
+
   const articlesRes = await fetchArticles({
     per_page: 21,
     page: currentPage,
@@ -17,7 +36,7 @@ export default async function Home(props: any) {
     source: source || undefined,
     q: q || undefined,
     date: date || undefined
-  });
+  }, token);
 
   const createPageUrl = (pageNum: number) => {
     const params = new URLSearchParams(Object.entries(searchParams));
@@ -37,7 +56,7 @@ export default async function Home(props: any) {
           <DateFilter />
         </div>
       </div>
-      <div className="grid gap-6 lg:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 lg:gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         {articlesRes.data.map((article: any) => (
           <ArticleCard key={article.id} article={article} />
         ))}
@@ -64,3 +83,11 @@ export default async function Home(props: any) {
     </main>
   );
 }
+
+export const metadata = {
+  title: 'Home - News Hub',
+  description: 'Stay updated with the latest news from your favorite sources, categories, and authors. Personalize your news experience with News Hub.',
+  alternates: {
+    canonical: '/',
+  },
+};

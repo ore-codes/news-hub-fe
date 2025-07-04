@@ -8,7 +8,8 @@ import * as yup from "yup";
 import { useState } from "react";
 import { register as registerApi } from "@/lib/api";
 import { useQueryClient } from "@tanstack/react-query";
-import { QueryKeys } from "@/lib/types";
+import { QueryKeys, LocalStorageKeys } from "@/lib/types";
+import { setCookie } from "nookies";
 
 const schema = yup.object({
   name: yup.string().min(2, "Name must be at least 2 characters").required("Name is required"),
@@ -35,7 +36,10 @@ export default function RegisterPage() {
     setBackendError("");
     setLoading(true);
     try {
-      await registerApi(data);
+      const result = await registerApi(data);
+      if (result.token) {
+        setCookie(null, LocalStorageKeys.Token, result.token, { path: "/" });
+      }
       await queryClient.refetchQueries({ queryKey: [QueryKeys.Me] });
       router.push("/");
     } catch (err: any) {
@@ -133,4 +137,4 @@ export default function RegisterPage() {
       </form>
     </div>
   );
-} 
+}
