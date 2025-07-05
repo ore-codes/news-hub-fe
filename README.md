@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# News Hub Backend
 
-## Getting Started
+This is a Next.js frontend for the News Hub project. It is fully containerized using Docker Compose for easy local development and deployment.
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/) installed
+- [Git](https://git-scm.com/) for cloning the repository
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quick Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/ore-codes/news-hub-fe.git
+   cd news-hub-fe
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Copy the example environment file and edit as needed:**
+   ```sh
+   cp .env.local.example .env.local
+   # Edit .env.local if necessary
+   ```
 
-## Learn More
+3. **Build and start app:**
+   ```sh
+   docker compose up --build -d
+   ```
+   Or if you have npm installed, you can run
+   ```sh
+   npm run docker:prod
+   ```
+   This will build the Next.js and nginx containers with production settings.
 
-To learn more about Next.js, take a look at the following resources:
+4. **For hot reloading**
+   ```sh
+   docker-compose -f docker-compose.dev.yml up --build -d
+   ```
+   Or if you have npm installed, you can run
+   ```sh
+   npm run docker:dev
+   ```
+   This will build the Next.js and nginx containers with development settings.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Access the application:**
+   - Prod: [http://localhost:3000](http://localhost:3000)
+   - Dev: [http://localhost:5173](http://localhost:5173)

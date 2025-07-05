@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up --build -d",
+    "docker:prod": "docker-compose up --build -d",
+    "docker:clean": "docker-compose -f docker-compose.dev.yml down -v && docker-compose down -v"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Article, LocalStorageKeys, Paginated } from './types';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://172.18.0.7:8000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api',
   headers: {
     'Accept': 'application/json',
   }
@@ -12,7 +12,6 @@ api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem(LocalStorageKeys.Token);
     if (token) {
-      //config.headers = config.headers || {};
       config.headers['Authorization'] = `Bearer ${token}`;
     }
   }
