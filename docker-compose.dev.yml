@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  nextjs_app_dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: nextjs_app_dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    ports:
+      - "5173:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - nextjs_network
+    stdin_open: true
+    tty: true
+
+  nginx_dev:
+    image: nginx:alpine
+    container_name: nextjs_nginx_dev
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - nextjs_app_dev
+    networks:
+      - nextjs_network
+
+networks:
+  nextjs_network:
+    driver: bridge
